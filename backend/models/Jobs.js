@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const JobSchema = new mongoose.Schema({
-    userId:{
+    userId:{ //Refering to the user who applied to this job
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
