@@ -70,4 +70,8 @@ const register = async (req, res) => {
     }
 };
 
-export { login, register };
+const getMe = async(req, res) => {
+    res.status(200).json({user: req.user});
+}
+
+export { login, register, getMe };

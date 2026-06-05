@@ -1,7 +1,7 @@
 import Job from '../models/Jobs.js';
 
 const addJob = async (req, res) => {
-    const { company, type, role, status, remarks } = req.body;
+    const { company, type, role, status, remarks, logo } = req.body;
     try {
         const newJob = new Job({
             userId: req.user._id,
@@ -10,6 +10,7 @@ const addJob = async (req, res) => {
             role,
             status,
             remarks,
+            ...(logo && { logo }) //If there is logo uploaded by user, only then accept it
         });
 
         await newJob.save();
@@ -69,7 +70,7 @@ const getJob = async (req, res) => {
 
 const updateJob = async (req, res) => {
     const JobId = req.params.id;
-    const { company, type, role, status, remarks, interviewOn, codingTestOn } = req.body;
+    const { company, type, role, status, remarks, interviewOn, codingTestOn, logo } = req.body;
     try {
         const job = await Job.findById(JobId);
         if (!job) {
@@ -86,7 +87,16 @@ const updateJob = async (req, res) => {
 
         const updatedJob = await Job.findByIdAndUpdate(
             JobId,
-            { company, type, role, status, remarks, interviewOn, codingTestOn },
+            { 
+                company, 
+                type, 
+                role, 
+                status, 
+                remarks, 
+                interviewOn, 
+                codingTestOn,
+                ...(logo && { logo })  // Only update logo if provided
+            },
             { returnDocument: 'after' }
         );
 
